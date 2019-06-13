@@ -227,7 +227,7 @@ ENV LUA_CPATH="/usr/local/openresty/site/lualib/?.so;/usr/local/openresty/lualib
 
 # Copy nginx configuration files
 COPY nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
-COPY tpl.static.conf /etc/nginx/conf.d/templates/tpl.static.conf
+COPY tpl.static.conf /etc/nginx/conf.d/templates/static.tmpl
 COPY images /images
 
 
@@ -238,7 +238,15 @@ ENV GI_TYPELIB_PATH=/usr/local/lib/girepository-1.0 \
     PATH=$PATH:/usr/local/bin \
     PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig \
     MANPATH=$MANPATH:/usr/local/man \
-    PYTHONPATH=/usr/local/lib/python2.7/site-packages
+    PYTHONPATH=/usr/local/lib/python2.7/site-packages \
+    DOCKERIZE_VERSION=v0.6.1 \
+    LUA_CODE_CACHE=off \
+    DOMAIN_NAME=static.local \
+    SCHEME=http \
+    IMAGES_PWD=/images \
+    CONTENT_PWD=/content \
+    
+    
 
 # build libvips from source
 RUN cd /tmp \
@@ -259,12 +267,15 @@ COPY install-luarocks.sh /usr/bin
 
 # install all packages
 RUN chmod +x /usr/bin/install-luarocks.sh \
-    && ./usr/bin/install-luarocks.sh
+    && ./usr/bin/install-luarocks.sh \
+    && wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && cd / \
+    && mkdir content
 
-
-
-#CMD ["/usr/local/openresty/bin/openresty", "-g", "daemon off;"]
-CMD /bin/bash -c "envsubst '$${DOMAIN_NAME} $${CONTENT_PWD} $${IMAGES_PWD} $${LUA_CODE_CACHE} $${RESOLVER}' < /etc/nginx/conf.d/templates/tpl.static.conf > /etc/nginx/conf.d/default.conf && /usr/local/openresty/bin/openresty -g 'daemon off;'"
+CMD ["dockerize", "-template", "/etc/nginx/conf.d/templates/static.tmpl:/etc/nginx/conf.d/default.conf", "/usr/local/openresty/bin/openresty", "-g", "daemon off;"]
+#CMD /bin/bash -c "envsubst '$${DOMAIN_NAME} $${CONTENT_PWD} $${IMAGES_PWD} $${LUA_CODE_CACHE} $${RESOLVER}' < /etc/nginx/conf.d/templates/tpl.static.conf > /etc/nginx/conf.d/default.conf && /usr/local/openresty/bin/openresty -g 'daemon off;'"
 
 # Use SIGQUIT instead of default SIGTERM to cleanly drain requests
 # See https://github.com/openresty/docker-openresty/blob/master/README.md#tips--pitfalls
