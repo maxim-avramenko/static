@@ -176,6 +176,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
         libpango1.0-dev \
         libpango1.0-0 \
         pngquant \
+        wget \
         ${RESTY_ADD_PACKAGE_BUILDDEPS} \
         ${RESTY_ADD_PACKAGE_RUNDEPS} \
     && cd /tmp \
