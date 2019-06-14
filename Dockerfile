@@ -272,9 +272,7 @@ RUN chmod +x /usr/bin/install-luarocks.sh \
     && ./usr/bin/install-luarocks.sh \
     && wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && cd / \
-    && mkdir content
+    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 CMD ["dockerize", "-template", "/etc/nginx/conf.d/templates/static.tmpl:/etc/nginx/conf.d/default.conf", "/usr/local/openresty/bin/openresty", "-g", "daemon off;"]
 #CMD /bin/bash -c "envsubst '$${DOMAIN_NAME} $${CONTENT_PWD} $${IMAGES_PWD} $${LUA_CODE_CACHE} $${RESOLVER}' < /etc/nginx/conf.d/templates/tpl.static.conf > /etc/nginx/conf.d/default.conf && /usr/local/openresty/bin/openresty -g 'daemon off;'"
