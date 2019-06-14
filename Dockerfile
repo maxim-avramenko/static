@@ -230,6 +230,7 @@ ENV LUA_CPATH="/usr/local/openresty/site/lualib/?.so;/usr/local/openresty/lualib
 COPY nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 COPY tpl.static.conf /etc/nginx/conf.d/templates/static.tmpl
 COPY images /images
+COPY content /content
 
 
 # set ENVIRONMENT

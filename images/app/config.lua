@@ -1,8 +1,8 @@
 return {
     -- Template options
     template = {
-        name = "API 4 - " .. ngx.var.server_name,
-        url = ngx.var.server_name,
+        name = "API 4 - " .. ngx.header["Host"],
+        url = ngx.header["Host"],
         args = "",
         example_image = "image.jpg",
         example_transparent_image = "PNG_transparency_demonstration.png",
