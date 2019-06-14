@@ -246,7 +246,7 @@ ENV GI_TYPELIB_PATH=/usr/local/lib/girepository-1.0 \
     SCHEME=http \
     IMAGES_PWD=/images \
     CONTENT_PWD=/content \
-    RESOLVER=127.0.0.11 8.8.8.8 8.8.4.4 1.1.1.1
+    RESOLVER="127.0.0.11 8.8.8.8 8.8.4.4 1.1.1.1"
 
 
 # build libvips from source
