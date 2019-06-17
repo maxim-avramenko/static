@@ -44,7 +44,7 @@ local is_exceeded = false
 -- Be careful: keys and values are unescaped according to URI escaping rules.
 local args, args_err = ngx.req.get_uri_args()
 
-if ngx.header["Host"] == "static.local" then
+if ngx.var.host == "static.local" then
     require("mobdebug").start('172.17.0.1')
 end
 
