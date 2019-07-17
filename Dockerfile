@@ -242,12 +242,10 @@ ENV GI_TYPELIB_PATH=/usr/local/lib/girepository-1.0 \
     MANPATH=$MANPATH:/usr/local/man \
     PYTHONPATH=/usr/local/lib/python2.7/site-packages \
     DOCKERIZE_VERSION=v0.6.1 \
-    LUA_CODE_CACHE=off \
-    DOMAIN_NAME=static.local \
-    SCHEME=http \
+    LUA_CODE_CACHE=on \
     IMAGES_PWD=/images \
     CONTENT_PWD=/content \
-    RESOLVER="127.0.0.11 8.8.8.8 8.8.4.4 1.1.1.1"
+    RESOLVER=8.8.8.8
 
 
 # build libvips from source
